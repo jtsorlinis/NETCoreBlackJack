@@ -189,7 +189,7 @@ namespace CSharpBlackJack
 
     private void DoubleBet()
     {
-      if ((int)mPlayers[_currentPlayer].mBetMult == 1 && mPlayers[_currentPlayer].mHand.Count == 2)
+      if (mPlayers[_currentPlayer].mBetMult < 1.1 && mPlayers[_currentPlayer].mHand.Count == 2)
       {
         mPlayers[_currentPlayer].DoubleBet();
         if (_verbose) Console.WriteLine("Player " + mPlayers[_currentPlayer].mPlayerNum + " doubles");
@@ -331,9 +331,11 @@ namespace CSharpBlackJack
     {
       float check = 0;
       for (var i = 0; i < mPlayers.Count; i++) check += mPlayers[i].mEarnings;
-      if (Math.Abs(check * -1 - mCasinoEarnings) < 1) return;
-      Console.WriteLine("Earnings don't match");
-      Environment.Exit(1);
+      if (check + mCasinoEarnings != 0)
+      {
+        Console.WriteLine("Earnings don't match");
+        Environment.Exit(1);
+      }
     }
 
     private void FinishRound()
